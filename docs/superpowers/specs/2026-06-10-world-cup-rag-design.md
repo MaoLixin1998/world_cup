@@ -1,67 +1,68 @@
-# World Cup RAG MVP Design
+# 世界杯 RAG MVP 设计文档
 
-## Status
+## 状态
 
-Approved for design documentation on 2026-06-10.
+本设计于 2026-06-10 经确认后写入文档。
 
-No implementation code should be written until this spec is reviewed and explicitly approved.
+在你明确确认本设计文档之前，不编写任何实现代码。
 
-## Product Goal
+## 产品目标
 
-Build a single-server-first World Cup RAG application for ordinary football fans. The MVP should let a fan ask World Cup questions in Chinese, browse core World Cup information, see source links and data freshness, and use a lightweight fan identity without a full login system.
+构建一个单机优先的世界杯 RAG 应用，面向普通球迷。MVP 要让球迷可以用中文提问世界杯相关问题，浏览核心资料，查看来源链接和资料更新时间，并使用一个轻量球迷身份，而不是完整登录系统。
 
-## Target User
+## 目标用户
 
-The primary MVP user is an ordinary football fan.
+MVP 的核心用户是普通球迷。
 
-The experience should prioritize:
+体验优先级：
 
-- Fast, understandable answers.
-- Clear source links.
-- Simple Chinese-language UI.
-- Easy browsing of teams, matches, players, people, venues, and historical World Cup material.
-- Honest freshness boundaries for 2026 content.
+- 回答快、好懂。
+- 来源链接清楚。
+- 界面和回答中文优先。
+- 能轻松浏览球队、比赛、球员/人物、场馆和世界杯历史资料。
+- 对 2026 相关内容明确说明时效边界。
 
-## MVP Content Scope
+## MVP 内容范围
 
-The MVP covers:
+MVP 覆盖：
 
-- World Cup history.
-- 2026 World Cup basic information.
-- Already-played schedule records.
-- Stable public reference material and user-provided owned material.
+- 世界杯历史资料。
+- 2026 世界杯基础资料。
+- 已进行赛程记录。
+- 稳定公开参考资料。
+- 用户提供且自有或有权使用的资料。
 
-The MVP does not promise:
+MVP 不承诺：
 
-- Real-time scores.
-- Breaking news.
-- Injury updates.
-- Last-minute lineups.
-- Live tactical commentary.
+- 实时比分。
+- 突发新闻。
+- 伤病动态。
+- 临场阵容。
+- 实时战术解说。
 
-Every user-facing data page should show the relevant last update time.
+所有面向用户的数据页面都应展示相关资料的最后更新时间。
 
-## Copyright And Source Policy
+## 版权与来源策略
 
-The MVP uses a conservative summary-first policy:
+MVP 采用保守的“摘要优先”策略：
 
-- Answers summarize source material in Chinese.
-- Answers include source titles and links.
-- The product does not display large verbatim passages from source material.
-- When the knowledge base lacks reliable material, the answer should say so instead of inventing.
-- Source metadata should include URL, title, source type, language, crawl or import time, and update time where available.
+- 回答用中文总结来源材料。
+- 回答包含来源标题和链接。
+- 产品不展示大段来源原文。
+- 当知识库缺少可靠材料时，回答应明确说明资料不足，而不是编造。
+- 来源元数据尽量包含 URL、标题、来源类型、语言、抓取或导入时间、更新时间。
 
-## Freshness Policy
+## 时效性策略
 
-The MVP uses daily scheduled updates.
+MVP 使用每日定时更新。
 
-Daily update jobs may fetch stable public material and process user-provided data. Job status, last successful update time, and errors should be visible in the management page.
+每日更新任务可以抓取稳定公开资料，也可以处理用户提供的资料。任务状态、最近成功更新时间和错误摘要需要在管理页可见。
 
-The architecture should allow a future move from daily updates to more frequent updates, but the MVP should not include real-time infrastructure.
+架构应允许未来从每日更新升级到更高频更新，但 MVP 不包含实时基础设施。
 
-## Repository And Deployment Strategy
+## 仓库与部署策略
 
-Use a monorepo:
+使用一个 monorepo：
 
 ```text
 world_cup/
@@ -80,40 +81,40 @@ world_cup/
     superpowers/
 ```
 
-Only `web-react` is implemented for the MVP. `web-vue` is reserved for a later functionally equivalent Vue 3 frontend that uses the same API contract.
+MVP 只实现 `web-react`。`web-vue` 预留给后续功能等价的 Vue 3 前端，并复用同一套 API 契约。
 
-Deployment must be single-machine-first with Docker Compose. The MVP should avoid Kubernetes, Kafka, Milvus, Elasticsearch, and other heavyweight infrastructure.
+部署必须单机优先，使用 Docker Compose。MVP 避免 Kubernetes、Kafka、Milvus、Elasticsearch 和其他重型基础设施。
 
-## Technology Choices
+## 技术选择
 
-- Java business backend: Spring Boot 3 with Java 21.
-- Python RAG, data processing, and evaluation service: FastAPI with Python 3.12.
-- Frontend: React, TypeScript, and Vite first.
-- Future frontend: Vue 3, TypeScript, and Vite as a second implementation.
-- Database and vector search: PostgreSQL with pgvector.
-- LLM and embedding: external API providers behind provider abstractions.
-- Future optional service: Go gateway or realtime push service, only after a real need appears.
+- Java 主业务后端：Spring Boot 3 + Java 21。
+- Python RAG、数据处理与评测服务：FastAPI + Python 3.12。
+- 前端：React + TypeScript + Vite 先行。
+- 未来第二前端：Vue 3 + TypeScript + Vite。
+- 数据库与向量检索：PostgreSQL + pgvector。
+- LLM 与 embedding：通过 provider 抽象调用外部 API。
+- 未来可选服务：Go 网关或实时推送服务，仅在出现真实需求后加入。
 
-## Runtime Architecture
+## 运行时架构
 
 ```text
-Browser
-  -> React frontend
+浏览器
+  -> React 前端
   -> Spring Boot API
       -> PostgreSQL + pgvector
-      -> FastAPI RAG service
-            -> External LLM API
-            -> External embedding API
+      -> FastAPI RAG 服务
+            -> 外部 LLM API
+            -> 外部 embedding API
             -> PostgreSQL + pgvector
 ```
 
-The frontend calls the Java API by default. The Java service owns fan identity, sessions, chat persistence, browsing APIs, and management APIs. The Python service owns ingestion, chunking, embedding, retrieval, answer generation, and RAG evaluation.
+前端默认只调用 Java API。Java 服务负责球迷身份、会话、聊天记录持久化、浏览 API 和管理 API。Python 服务负责导入、清洗、切块、embedding、检索、回答生成和 RAG 评测。
 
-PostgreSQL with pgvector is the only core state layer in the MVP.
+PostgreSQL + pgvector 是 MVP 唯一核心状态层。
 
-## Core Data Model
+## 核心数据模型
 
-### Anonymous Fan Identity
+### 匿名球迷身份
 
 `fan_user`
 
@@ -123,384 +124,384 @@ PostgreSQL with pgvector is the only core state layer in the MVP.
 - `created_at`
 - `last_seen_at`
 
-The app has no password login. On first open, a user creates a lightweight fan identity with uid, nickname, and a selected star player avatar. The backend stores this anonymous user record. MVP account recovery is limited to the user knowing the uid.
+应用没有密码登录。用户首次打开时创建轻量球迷身份，包括 uid、昵称和选择的明星球员头像。后端保存这条匿名用户记录。MVP 的找回能力仅限于用户自己记得 uid。
 
-### World Cup Domain Data
+### 世界杯领域数据
 
 `tournament`
 
-- year
-- host
-- stage metadata
-- description
+- 年份
+- 主办地
+- 阶段元数据
+- 简介
 
 `team`
 
-- name
-- region or country
-- aliases
-- crest metadata if available
-- description
+- 名称
+- 国家或地区
+- 别名
+- 队徽元数据，如果可用
+- 简介
 
 `player`
 
-- name
-- team or national side
-- avatar metadata
-- description
-- star avatar candidate flag
+- 姓名
+- 所属国家队或相关球队
+- 头像元数据
+- 简介
+- 是否是明星头像候选
 
 `match`
 
-- tournament year
-- stage
-- home or team A
-- away or team B
-- scheduled time
-- venue
-- played status
-- score fields when present in source material
+- 赛事年份
+- 阶段
+- 主队或 A 队
+- 客队或 B 队
+- 计划时间
+- 场馆
+- 是否已进行
+- 来源资料中存在时可保存比分字段，但 UI 不承诺实时比分
 
 `venue`
 
-- name
-- city
-- capacity when available
-- description
+- 名称
+- 城市
+- 容量，如果可用
+- 简介
 
-### RAG Data
+### RAG 数据
 
 `source_document`
 
-- title
+- 标题
 - URL
-- source type
-- language
-- license or rights note where known
-- crawled or imported time
-- updated time
+- 来源类型
+- 语言
+- 许可或权利说明，如果已知
+- 抓取或导入时间
+- 更新时间
 
 `document_chunk`
 
-- source document id
-- chunk summary or normalized text
-- entity tags
-- time range tags
-- source reference metadata
+- 来源文档 id
+- chunk 摘要或规范化文本
+- 实体标签
+- 时间范围标签
+- 来源引用元数据
 
 `document_embedding`
 
 - chunk id
-- vector
-- embedding model
-- created time
+- 向量
+- embedding 模型
+- 创建时间
 
-### Chat And Feedback Data
+### 聊天与反馈数据
 
 `chat_session`
 
 - uid
-- title
-- created time
+- 标题
+- 创建时间
 
 `chat_message`
 
-- session id
-- role
-- content
-- citations
-- latency in milliseconds
+- 会话 id
+- 角色
+- 内容
+- 引用来源
+- 延迟毫秒数
 
 `answer_feedback`
 
-- message id
-- helpful flag
-- reason
+- 消息 id
+- 是否有帮助
+- 原因
 
-### Ingestion And Evaluation Data
+### 导入与评测数据
 
 `ingest_job`
 
-- status
-- start time
-- end time
-- source count
-- chunk count
-- error summary
+- 状态
+- 开始时间
+- 结束时间
+- 来源数量
+- chunk 数量
+- 错误摘要
 
 `rag_eval_case`
 
-- question
-- expected answer points
-- expected citation hints
-- category
+- 问题
+- 期望回答要点
+- 期望引用提示
+- 分类
 
 `rag_eval_run`
 
-- retrieval score
-- citation coverage
-- answer score
-- latency
+- 检索分数
+- 引用覆盖率
+- 回答分数
+- 延迟
 
-Evaluation is an engineering test or CLI capability in the MVP, not a user-facing page.
+RAG 评测在 MVP 中是工程测试或 CLI 能力，不做成用户页面。
 
-## RAG Answer Flow
+## RAG 问答流程
 
 ```text
-React chat page
+React 问答页
  -> Java /api/chat
- -> Java saves the user message
- -> Java calls FastAPI /rag/answer
- -> FastAPI normalizes the Chinese question
- -> FastAPI performs vector retrieval with metadata filtering
- -> FastAPI optionally performs lightweight reranking
- -> FastAPI generates a Chinese answer
- -> FastAPI returns answer, citations, related entities, and update time
- -> Java saves the assistant message
- -> React displays the answer, source links, freshness, and related browsing entries
+ -> Java 保存用户消息
+ -> Java 调用 FastAPI /rag/answer
+ -> FastAPI 规范化中文问题
+ -> FastAPI 做向量检索和元数据过滤
+ -> FastAPI 可选执行轻量重排
+ -> FastAPI 生成中文回答
+ -> FastAPI 返回回答、引用、相关实体和更新时间
+ -> Java 保存助手消息
+ -> React 展示回答、来源链接、资料新鲜度和相关浏览入口
 ```
 
-Answer rules:
+回答规则：
 
-- Prefer concise fan-friendly Chinese.
-- Include source links for factual claims.
-- Include data freshness.
-- Avoid unsupported claims.
-- If reliable context is missing, say the knowledge base does not contain enough reliable information.
+- 优先使用简洁、球迷友好的中文。
+- 事实性回答需要包含来源链接。
+- 展示资料更新时间。
+- 避免无依据断言。
+- 如果可靠上下文不足，要说明知识库没有足够可靠资料。
 
-## Daily Ingestion Flow
+## 每日导入流程
 
 ```text
-Scheduler
- -> FastAPI ingestion pipeline
- -> Fetch stable public sources and read user-provided material
- -> Clean and normalize records
- -> Extract or associate entities
- -> Chunk documents
- -> Create embeddings
- -> Upsert PostgreSQL records and pgvector embeddings
- -> Write ingest_job status
- -> Java management API reads status for the frontend
+调度器
+ -> FastAPI 导入流水线
+ -> 抓取稳定公开来源并读取用户提供资料
+ -> 清洗和规范化记录
+ -> 抽取或关联实体
+ -> 文档切块
+ -> 创建 embedding
+ -> upsert 到 PostgreSQL 和 pgvector
+ -> 写入 ingest_job 状态
+ -> Java 管理 API 读取状态并展示给前端
 ```
 
-The scheduler may be inside the Python service or a lightweight Compose service. It should not require Airflow, Kafka, Kubernetes, or other heavy components.
+调度器可以内置在 Python 服务中，也可以是一个轻量 Compose 服务。它不应依赖 Airflow、Kafka、Kubernetes 或其他重组件。
 
-## UI Pages
+## UI 页面
 
-### Fan Home
+### 球迷首页
 
-First open:
+首次打开：
 
-- uid input.
-- nickname input.
-- star player avatar selection.
+- uid 输入。
+- 昵称输入。
+- 明星球员头像选择。
 
-Returning fan:
+再次访问：
 
-- welcome message.
-- ask a World Cup question entry.
-- browse entry.
-- popular question prompts.
-- last update time.
+- 欢迎语。
+- 世界杯提问入口。
+- 浏览入口。
+- 热门问题提示。
+- 最后更新时间。
 
-Review criteria:
+审查标准：
 
-- All inputs have visible labels.
-- Avatar touch targets are at least 44 px.
-- Mobile layout does not crowd controls.
-- The update time is visible without dominating the page.
+- 所有输入都有可见 label。
+- 头像触控目标至少 44 px。
+- 移动端布局不拥挤。
+- 更新时间可见，但不喧宾夺主。
 
-### Chat Page
+### 问答页
 
-The chat page provides:
+问答页提供：
 
-- World Cup question input.
-- Example prompts.
-- Answer cards.
-- Source links.
-- Data freshness.
-- Related team, match, player, or venue links.
+- 世界杯问题输入。
+- 示例问题。
+- 回答卡片。
+- 来源链接。
+- 资料更新时间。
+- 相关球队、比赛、球员或场馆链接。
 
-Review criteria:
+审查标准：
 
-- Citations are clickable.
-- No-source answers are clearly marked.
-- Loading and error states are clear.
-- Long answers remain readable on mobile.
-- The input area does not hide conversation content.
+- 引用来源可点击。
+- 无来源回答有明确标记。
+- 加载和错误状态清楚。
+- 长答案在移动端仍然可读。
+- 输入区域不遮挡对话内容。
 
-### Browse Page
+### 浏览页
 
-The browse page provides sections for:
+浏览页提供以下分区：
 
-- Teams.
-- Matches.
-- Players and people.
-- Venues.
+- 球队。
+- 比赛。
+- 球员和人物。
+- 场馆。
 
-It should support search and simple filters. Details should include core facts, related matches, source freshness, and a way to ask a follow-up question.
+应支持搜索和简单筛选。详情页应展示核心事实、相关比赛、来源新鲜度，并提供继续追问入口。
 
-Review criteria:
+审查标准：
 
-- Lists are scannable.
-- Match rows make stage, teams, time, and status easy to compare.
-- State is not conveyed by color alone.
-- Mobile and desktop layouts use stable spacing and avoid horizontal scrolling.
+- 列表易扫描。
+- 比赛行能清楚比较阶段、球队、时间和状态。
+- 状态不只靠颜色表达。
+- 移动端和桌面端布局稳定，避免横向滚动。
 
-### My Records
+### 我的记录
 
-The records page provides:
+我的记录页提供：
 
-- uid.
-- nickname.
-- avatar.
-- question history.
-- answer feedback history where useful.
-- continue-chat action.
+- uid。
+- 昵称。
+- 头像。
+- 提问历史。
+- 有价值时展示回答反馈历史。
+- 继续会话动作。
 
-Review criteria:
+审查标准：
 
-- History is ordered clearly.
-- Empty state includes a useful action.
-- Copy does not imply this is a secure account system.
+- 历史记录排序清楚。
+- 空状态包含有用行动入口。
+- 文案不误导用户以为这是安全账号系统。
 
-### Management Page
+### 管理页
 
-The management page is protected by an environment secret or Basic Auth. It provides:
+管理页使用环境密钥或 Basic Auth 保护。管理页提供：
 
-- data source status.
-- last successful update time.
-- latest ingest jobs.
-- trigger reindex action.
-- error summary.
+- 数据源状态。
+- 最近成功更新时间。
+- 最新导入任务。
+- 触发重建索引动作。
+- 错误摘要。
 
-Review criteria:
+审查标准：
 
-- Rebuild actions require confirmation.
-- Running jobs show progress or clear status.
-- Errors are readable.
-- Secrets are not exposed.
+- 重建类操作需要确认。
+- 运行中的任务显示进度或清晰状态。
+- 错误信息可读。
+- 不暴露密钥。
 
-## Global UI And UX Standards
+## 全局 UI/UX 标准
 
-Use ui-ux-pro-max review for every implemented page.
+每个实现完成的页面都必须经过 ui-ux-pro-max 审查。
 
-Global standards:
+全局标准：
 
-- Chinese-first interface.
-- Sports content product feel rather than a marketing landing page.
-- Directly usable first screen.
-- WCAG AA contrast for normal text.
-- Visible keyboard focus states.
-- 44 px minimum touch targets for important controls.
-- Icons from a consistent SVG icon library such as Lucide.
-- No emoji as functional icons.
-- Stable responsive layouts with no unintended horizontal scroll.
-- Loading states that reserve space to reduce layout shift.
-- Clear data freshness and source visibility on content pages.
-- A restrained palette using field green, deep ink, white, and limited gold accents without becoming a single-color theme.
+- 中文优先。
+- 像体育内容产品，而不是营销落地页。
+- 首屏直接可用。
+- 普通文本满足 WCAG AA 对比度。
+- 键盘焦点状态可见。
+- 重要控件触控目标至少 44 px。
+- 图标使用一致的 SVG 图标库，例如 Lucide。
+- 不用 emoji 作为功能图标。
+- 响应式布局稳定，避免意外横向滚动。
+- 加载状态预留空间，减少布局跳动。
+- 内容页清楚展示资料更新时间和来源。
+- 配色克制，可使用球场绿、深墨色、白色和少量金色强调，但避免整站变成单一绿色主题。
 
-## Implementation Phases
+## 实施阶段
 
-### Phase 1: Engineering Skeleton And Contracts
+### 阶段 1：工程骨架与契约
 
-Create the monorepo structure, Git repository, README, Docker Compose, PostgreSQL with pgvector, Spring Boot service, FastAPI service, React Vite app, and API contract conventions.
+创建 monorepo 结构、Git 仓库、README、Docker Compose、PostgreSQL + pgvector、Spring Boot 服务、FastAPI 服务、React Vite 应用和 API 契约约定。
 
-Verification:
+验证：
 
-- health checks pass.
-- containers start locally.
-- API contract smoke test passes.
+- 健康检查通过。
+- 容器可以本地启动。
+- API 契约 smoke test 通过。
 
-### Phase 2: Anonymous Fan Identity
+### 阶段 2：匿名球迷身份
 
-Implement `fan_user`, avatar candidates, first-open identity setup, and returning fan state.
+实现 `fan_user`、头像候选、首次身份设置和再次访问状态。
 
-Verification:
+验证：
 
-- Java service and controller tests.
-- React form and local state tests.
-- homepage UI/UX review.
+- Java service 和 controller 测试。
+- React 表单和本地状态测试。
+- 首页 UI/UX 审查。
 
-### Phase 3: Domain Browsing Data
+### 阶段 3：领域浏览数据
 
-Implement seed data, browsing APIs, search, filters, list pages, and detail views for teams, matches, players, and venues.
+实现 seed 数据、浏览 API、搜索、筛选、球队/比赛/球员/场馆列表页和详情页。
 
-Verification:
+验证：
 
-- repository, service, and API tests.
-- frontend list, detail, and search tests.
-- browse page UI/UX review.
+- repository、service 和 API 测试。
+- 前端列表、详情和搜索测试。
+- 浏览页 UI/UX 审查。
 
-### Phase 4: RAG Documents And Chat
+### 阶段 4：RAG 文档与问答
 
-Implement ingestion, chunking, embedding provider abstraction, pgvector retrieval, answer endpoint, Java chat persistence and forwarding, and React chat UI.
+实现导入、切块、embedding provider 抽象、pgvector 检索、回答 endpoint、Java 聊天持久化与转发、React 问答 UI。
 
-Verification:
+验证：
 
-- chunking tests.
-- citation tests.
-- retrieval filter tests.
-- no-source answer tests.
-- Java forwarding and persistence tests.
-- frontend loading, error, citation, and related-entity tests.
-- chat page UI/UX review.
+- chunking 测试。
+- citation 测试。
+- 检索过滤测试。
+- 无来源回答测试。
+- Java 转发和持久化测试。
+- 前端加载、错误、引用和相关实体测试。
+- 问答页 UI/UX 审查。
 
-### Phase 5: Daily Updates And Management
+### 阶段 5：每日更新与管理
 
-Implement scheduled ingestion jobs, job status tracking, protected management APIs, and management UI.
+实现定时导入任务、任务状态跟踪、受保护的管理 API 和管理 UI。
 
-Verification:
+验证：
 
-- job state transition tests.
-- failure recording tests.
-- management protection tests.
-- rebuild confirmation tests.
-- management page UI/UX review.
+- 任务状态流转测试。
+- 失败记录测试。
+- 管理权限保护测试。
+- 重建确认测试。
+- 管理页 UI/UX 审查。
 
-### Phase 6: My Records And Feedback
+### 阶段 6：我的记录与反馈
 
-Implement chat history, feedback, uid isolation, and the records page.
+实现聊天历史、反馈、uid 隔离和我的记录页。
 
-Verification:
+验证：
 
-- history query tests.
-- uid isolation tests.
-- feedback persistence tests.
-- empty state tests.
-- records page UI/UX review.
+- 历史查询测试。
+- uid 隔离测试。
+- 反馈持久化测试。
+- 空状态测试。
+- 我的记录页 UI/UX 审查。
 
-### Phase 7: RAG Evaluation And Release Hardening
+### 阶段 7：RAG 评测与发布加固
 
-Implement RAG evaluation test cases, evaluation runner, Compose production profile, backup notes, and GitHub handoff preparation.
+实现 RAG 评测用例、评测 runner、Compose 生产 profile、备份说明和 GitHub 交付准备。
 
-Verification:
+验证：
 
-- evaluation command passes.
-- end-to-end smoke test passes.
-- Docker Compose one-command startup works.
-- README instructions are verified.
+- 评测命令通过。
+- 端到端 smoke test 通过。
+- Docker Compose 一条命令启动可用。
+- README 指令经过验证。
 
-## Engineering Workflow
+## 工程流程
 
-Implementation should follow TDD:
+实现阶段遵循 TDD：
 
-- write a failing test.
-- run the test and confirm it fails for the expected reason.
-- implement the smallest useful behavior.
-- run tests and verification.
-- commit focused changes.
+- 先写失败测试。
+- 运行测试，确认它因为预期原因失败。
+- 实现最小可用行为。
+- 运行测试和验证。
+- 做小而聚焦的提交。
 
-Every UI page must pass a ui-ux-pro-max sports content product experience review before that page is considered complete.
+每个 UI 页面完成前，都必须通过 ui-ux-pro-max 的体育内容产品体验审查。
 
-React is implemented first. Vue is implemented later from the same API contract after the React MVP stabilizes.
+React 先实现。Vue 在 React MVP 稳定后，基于同一 API 契约再实现。
 
-## Open Confirmed Boundaries
+## 已确认边界
 
-- MVP uses one GitHub repository.
-- MVP deploys on one small server.
-- MVP uses Docker Compose.
-- MVP does not use Kubernetes, Kafka, Milvus, or Elasticsearch.
-- MVP uses external LLM and embedding APIs.
-- MVP stores anonymous fan records in the backend database.
-- MVP does not include full login, password accounts, email, phone verification, or social login.
+- MVP 使用一个 GitHub 仓库。
+- MVP 部署在一台小服务器上。
+- MVP 使用 Docker Compose。
+- MVP 不使用 Kubernetes、Kafka、Milvus 或 Elasticsearch。
+- MVP 使用外部 LLM 和 embedding API。
+- MVP 把匿名球迷记录保存在后端数据库中。
+- MVP 不包含完整登录、密码账号、邮箱、手机号验证或社交登录。
