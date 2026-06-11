@@ -29,5 +29,16 @@ services:
       postgres:
         condition: service_healthy
 
+  rag-python:
+    build:
+      context: ../apps/rag-python
+    environment:
+      DATABASE_URL: postgresql://worldcup:worldcup@postgres:5432/worldcup
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres_data:
