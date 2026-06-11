@@ -46,50 +46,58 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
 
   return (
     <section className="setup-panel" aria-labelledby="setup-title">
-      <div className="setup-hero" aria-hidden="true" />
-      <img className="trophy-layer" src="/assets/world-cup/trophy.svg" alt="" aria-hidden="true" />
-
-      {/* 金银铜领奖台既是视觉分界，也呼应世界杯排名语义。 */}
-      <div className="podium-divider" aria-hidden="true">
-        <img src="/assets/world-cup/podium.svg" alt="" />
-      </div>
-
       <div className="setup-content">
-        <h1 id="setup-title">先设置你的球迷身份</h1>
-        <span className="title-divider" aria-hidden="true" />
-        <p className="setup-intro">不用注册登录，填一个自己看得懂的 UID 和昵称就能开始使用。</p>
-
         <form className="fan-form" onSubmit={handleSubmit} aria-label="球迷身份设置">
-          <label className="field">
-            <span>UID</span>
-            <span className="input-shell">
-              <UserRound aria-hidden="true" size={22} />
-              <input
-                value={uid}
-                onChange={(event) => {
-                  setUid(event.target.value);
-                  if (uidError) {
-                    setUidError("");
-                  }
-                }}
-                placeholder="fan-001"
-                aria-describedby={uidError ? "uid-error" : undefined}
-              />
-            </span>
-            {uidError ? (
-              <span className="field-error" id="uid-error">
-                {uidError}
-              </span>
-            ) : null}
-          </label>
+          <div className="setup-copy">
+            <p className="eyebrow">首次进入</p>
+            <h1 id="setup-title">先设置你的球迷身份</h1>
+            <span className="title-divider" aria-hidden="true" />
+            <p className="setup-intro">不用注册登录，填一个自己看得懂的 UID 和昵称就能开始使用。</p>
 
-          <label className="field">
-            <span>昵称</span>
-            <span className="input-shell">
-              <UserRound aria-hidden="true" size={22} />
-              <input value={nickname} onChange={(event) => setNickname(event.target.value)} placeholder="小梅迷" />
-            </span>
-          </label>
+            <label className="field">
+              <span>UID</span>
+              <span className="input-shell">
+                <UserRound aria-hidden="true" size={22} />
+                <input
+                  value={uid}
+                  onChange={(event) => {
+                    setUid(event.target.value);
+                    if (uidError) {
+                      setUidError("");
+                    }
+                  }}
+                  placeholder="fan-001"
+                  aria-describedby={uidError ? "uid-error" : undefined}
+                />
+              </span>
+              {uidError ? (
+                <span className="field-error" id="uid-error">
+                  {uidError}
+                </span>
+              ) : null}
+            </label>
+
+            <label className="field">
+              <span>昵称</span>
+              <span className="input-shell">
+                <UserRound aria-hidden="true" size={22} />
+                <input value={nickname} onChange={(event) => setNickname(event.target.value)} placeholder="小梅迷" />
+              </span>
+            </label>
+
+            <p className="privacy-note">
+              <ShieldCheck aria-hidden="true" size={22} />
+              <span>你的身份仅保存在本地设备，用于个性化体验，隐私安全有保障。</span>
+            </p>
+            <button className="primary-action" type="submit">
+              <img className="button-football-icon" src="/assets/world-cup/football-icon.svg" alt="" aria-hidden="true" />
+              进入世界杯问答
+            </button>
+            <p className="login-note">
+              <Lock aria-hidden="true" size={16} />
+              <span>无需注册登录 · 随时可更改身份设置</span>
+            </p>
+          </div>
 
           <fieldset className="avatar-field">
             <legend>选择你喜欢的明星球员头像</legend>
@@ -109,19 +117,6 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
               ))}
             </div>
           </fieldset>
-
-          <p className="privacy-note">
-            <ShieldCheck aria-hidden="true" size={22} />
-            <span>你的身份仅保存在本地设备，用于个性化体验，隐私安全有保障。</span>
-          </p>
-          <button className="primary-action" type="submit">
-            <img className="button-football-icon" src="/assets/world-cup/football-icon.svg" alt="" aria-hidden="true" />
-            进入世界杯问答
-          </button>
-          <p className="login-note">
-            <Lock aria-hidden="true" size={16} />
-            <span>无需注册登录 · 随时可更改身份设置</span>
-          </p>
         </form>
       </div>
     </section>

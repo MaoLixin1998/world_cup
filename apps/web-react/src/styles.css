@@ -1,26 +1,31 @@
+/* 全局根样式：控制整个前端应用的默认文字颜色、页面背景和字体。 */
 :root {
   /* 全局基础配色：深墨文字 + 浅色背景，先保证可读性和对比度。 */
   color: #10231d;
-  background: #10231d;
+  background: #ffffff;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
+/* 浏览器默认 body 会带 8px 外边距，这里清掉，页面才能贴齐视口。 */
 body {
   margin: 0;
 }
 
+/* 表单控件的基础字体：让按钮和输入框继承页面字体，不出现割裂感。 */
 button,
 input {
   /* 表单控件继承页面字体，避免按钮/输入框出现系统默认字体割裂。 */
   font: inherit;
 }
 
+/* 应用最外层容器：负责撑满视口高度，后续所有页面都挂在这里。 */
 .app-shell {
   /* dvh 适配移动端浏览器地址栏变化，避免 100vh 在手机上撑出多余滚动。 */
   min-height: 100dvh;
   padding: 0;
 }
 
+/* 已完成身份设置后的首页内容区：限制普通首页的最大宽度和页面内边距。 */
 .home-panel {
   /* 约束正文宽度，让桌面端不散，移动端仍自然占满可用宽度。 */
   max-width: 960px;
@@ -28,16 +33,17 @@ input {
   padding: 24px;
 }
 
+/* 身份设置页的整页背景：现在按网页端处理，打开就是白底页面。 */
 .setup-panel {
   background: #ffffff;
   color: #10231d;
-  margin: 0 auto;
-  max-width: 430px;
   min-height: 100dvh;
   overflow: hidden;
+  padding: 48px clamp(24px, 5vw, 72px);
   position: relative;
 }
 
+/* 首页标题行：只用于普通首页的搜索图标 + “世界杯问答”标题。 */
 .title-row {
   /* 标题和图标保持同一视觉行，gap 提供稳定间距。 */
   display: flex;
@@ -45,6 +51,7 @@ input {
   gap: 12px;
 }
 
+/* 小绿字标签：身份设置卡片左上角“首次进入”。 */
 .eyebrow {
   color: #2b7a52;
   font-size: 14px;
@@ -52,75 +59,58 @@ input {
   margin: 0 0 12px;
 }
 
-.setup-hero {
-  /* 场馆顶部已经拆成独立素材，后面接 OSS/CDN 时只需要替换这个 URL。 */
-  background: #063829 url("/assets/world-cup/stadium-header.png") center top / cover no-repeat;
-  min-height: 276px;
-  position: relative;
-}
-
-.trophy-layer {
-  display: block;
-  left: 50%;
-  position: absolute;
-  top: 72px;
-  transform: translateX(-50%);
-  width: 142px;
-  z-index: 3;
-}
-
-.podium-divider {
-  height: 96px;
-  margin: -92px auto 0;
-  max-width: 354px;
-  position: relative;
-  z-index: 4;
-}
-
-.podium-divider img {
-  display: block;
-  width: 100%;
-}
-
+/* fans 设置主卡片：控制白色卡片的宽度、圆角、阴影和内部留白。 */
 .setup-content {
   background: #ffffff;
-  border-radius: 24px 24px 0 0;
-  box-shadow: 0 -10px 30px rgba(16, 35, 29, 0.08);
-  padding: 48px 28px 26px;
+  border-radius: 18px;
+  box-shadow: 0 18px 50px rgba(16, 35, 29, 0.1);
+  margin: 0 auto;
+  max-width: 1180px;
+  padding: 42px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
 
-.setup-content h1 {
-  font-size: 34px;
-  line-height: 1.16;
+/* 左侧文案和表单区域：用 grid 统一管理标题、输入框、提示和按钮的纵向间距。 */
+.setup-copy {
+  display: grid;
+  gap: 22px;
+}
+
+/* 左侧主标题：桌面端保持一行，避免“身份”被拆成尴尬的两行。 */
+.setup-copy h1 {
+  font-size: clamp(36px, 3.2vw, 48px);
+  line-height: 1.08;
   margin: 0;
-  text-align: center;
+  white-space: nowrap;
 }
 
+/* 标题下方金色短线：用于增强世界杯/领奖台的金色视觉记忆。 */
 .title-divider {
   background: #d99a23;
   display: block;
   height: 2px;
-  margin: 18px auto 0;
-  width: 72px;
+  width: 96px;
 }
 
+/* 标题说明文字：解释“不注册登录也能用”的 MVP 使用方式。 */
 .setup-intro {
   color: #68756f;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 1.7;
-  margin: 18px auto 0;
-  max-width: 310px;
-  text-align: center;
+  margin: 0;
+  max-width: 520px;
 }
 
+/* 表单整体布局：桌面端左侧身份信息，右侧球员头像选择区。 */
 .fan-form {
+  align-items: start;
   display: grid;
   gap: 18px;
-  margin-top: 32px;
+  grid-template-columns: minmax(360px, 0.9fr) minmax(560px, 1.2fr);
 }
 
+/* 每一个输入字段的外层：控制字段标签、输入框和错误提示的竖向布局。 */
 .field {
   display: grid;
   gap: 10px;
@@ -128,6 +118,7 @@ input {
   font-weight: 700;
 }
 
+/* 输入框视觉壳：包含左侧用户图标和真正的 input。 */
 .input-shell {
   align-items: center;
   background: #ffffff;
@@ -140,10 +131,12 @@ input {
   padding: 0 14px;
 }
 
+/* 输入框左侧图标：用低饱和灰色，避免抢用户输入内容的注意力。 */
 .input-shell svg {
   color: #9aa4a0;
 }
 
+/* 真正的 input 元素：去掉原生边框，把边框交给 input-shell 统一控制。 */
 .field input {
   border: 0;
   color: #10231d;
@@ -153,11 +146,13 @@ input {
   width: 100%;
 }
 
+/* 输入框占位文案：加大一点字号，让示例 fan-001 / 小梅迷更像设计稿。 */
 .field input::placeholder {
   color: #9aa4a0;
   font-size: 20px;
 }
 
+/* 键盘焦点样式：输入框、头像卡、主按钮都要有清晰焦点，方便键盘和无障碍使用。 */
 .input-shell:focus-within,
 .avatar-option:focus-within,
 .primary-action:focus {
@@ -165,30 +160,36 @@ input {
   outline-offset: 2px;
 }
 
+/* UID 错误提示：例如用户没填 UID 时显示“UID 不能为空”。 */
 .field-error {
   color: #a33b25;
   font-size: 14px;
   font-weight: 700;
 }
 
+/* 右侧头像选择区域：控制头像区整体下移到蓝框位置。 */
 .avatar-field {
   border: 0;
-  margin: 0;
+  /* 头像标题和卡片一起下移，避免标题贴着卡片顶部。 */
+  margin: 58px 0 0;
   padding: 0;
 }
 
+/* 头像区标题：也就是“选择你喜欢的明星球员头像”。 */
 .avatar-field legend {
-  font-size: 18px;
+  font-size: 24px;
   font-weight: 700;
-  margin-bottom: 14px;
+  margin-bottom: 18px;
 }
 
+/* 头像卡片网格：桌面端固定 3 列，刚好形成 3x2 的球员选择区。 */
 .avatar-grid {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* 单个球员头像卡片：控制白底、边框、阴影、卡片高度和内部居中。 */
 .avatar-option {
   background: #ffffff;
   border: 1px solid #e0e5e2;
@@ -198,23 +199,26 @@ input {
   display: grid;
   gap: 8px;
   justify-items: center;
-  min-height: 156px;
-  padding: 12px 8px 10px;
+  min-height: 206px;
+  padding: 18px 12px 14px;
   position: relative;
 }
 
+/* 被选中的球员卡片：绿色边框和轻微外发光，让当前选择更明显。 */
 .avatar-option:has(input:checked) {
   background: #ffffff;
   border-color: #108046;
   box-shadow: 0 0 0 2px rgba(16, 128, 70, 0.18), 0 6px 18px rgba(16, 35, 29, 0.1);
 }
 
+/* radio 原生控件：保留语义和键盘能力，但视觉上隐藏，点击卡片即可选择。 */
 .avatar-option input {
   opacity: 0;
   pointer-events: none;
   position: absolute;
 }
 
+/* 头像卡右上角绿色勾：只有选中时才显示。 */
 .avatar-check {
   align-items: center;
   background: #108046;
@@ -231,25 +235,29 @@ input {
   width: 30px;
 }
 
+/* 选中卡片时显示绿色勾。 */
 .avatar-option:has(input:checked) .avatar-check {
   display: flex;
 }
 
+/* 球员头像图片：使用高质量 PNG，固定尺寸保证 3x2 网格整齐。 */
 .avatar-image {
   display: block;
-  height: 96px;
+  height: 142px;
   object-fit: cover;
-  width: 96px;
+  width: 142px;
 }
 
+/* 球员姓名：禁止换行，避免“姆巴佩/孙兴慜”被压成竖排。 */
 .avatar-player-name {
-  font-size: 17px;
+  font-size: 20px;
   font-weight: 800;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+/* 隐私提示条：说明身份只保存在本地设备，减少用户对登录/隐私的担心。 */
 .privacy-note {
   align-items: center;
   background: #f0faf5;
@@ -265,10 +273,12 @@ input {
   padding: 10px 12px;
 }
 
+/* 隐私提示条左侧盾牌图标：用绿色强调安全感。 */
 .privacy-note svg {
   color: #108046;
 }
 
+/* 主操作按钮：进入世界杯问答，包含绿色底色和足球纹理背景。 */
 .primary-action {
   align-items: center;
   /* 按钮纹理也拆成独立素材，保持代码清爽，后面接 CDN 更容易。 */
@@ -287,11 +297,13 @@ input {
   box-shadow: 0 8px 18px rgba(20, 95, 58, 0.22);
 }
 
+/* 主按钮左侧足球图标：让按钮更有世界杯识别感。 */
 .button-football-icon {
   height: 24px;
   width: 24px;
 }
 
+/* 底部灰色登录说明：强调无需注册，后续可更改身份。 */
 .login-note {
   align-items: center;
   color: #747f7b;
@@ -302,6 +314,37 @@ input {
   margin: -2px 0 0;
 }
 
+/* 底部锁图标：和登录说明搭配，表达轻量和安全。 */
 .login-note svg {
   color: #747f7b;
+}
+
+/* 窄屏适配：当窗口宽度小于 980px 时，从左右两栏改为上下堆叠。 */
+@media (max-width: 980px) {
+  /* 窄屏卡片：减小内边距，圆角只保留顶部，适合手机和平板窄屏。 */
+  .setup-content {
+    border-radius: 18px 18px 0 0;
+    margin: 0;
+    padding: 28px;
+  }
+
+  /* 窄屏表单：取消左右分栏，改为单列。 */
+  .fan-form {
+    grid-template-columns: 1fr;
+  }
+
+  /* 窄屏标题：允许自然换行，避免标题溢出屏幕。 */
+  .setup-copy h1 {
+    white-space: normal;
+  }
+
+  /* 窄屏头像网格：3 列会挤，所以改成 2 列。 */
+  .avatar-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* 窄屏头像区：减少顶部下移距离，让用户少滚一点。 */
+  .avatar-field {
+    margin-top: 12px;
+  }
 }
