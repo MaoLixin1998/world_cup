@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { Lock, ShieldCheck, UserRound } from "lucide-react";
 
 export type FanIdentity = {
   uid: string;
@@ -7,12 +8,12 @@ export type FanIdentity = {
 };
 
 const avatarOptions = [
-  { id: "messi", label: "梅西", number: "10", avatarSrc: "/assets/world-cup/avatars/messi.svg" },
-  { id: "ronaldo", label: "C 罗", number: "7", avatarSrc: "/assets/world-cup/avatars/ronaldo.svg" },
-  { id: "mbappe", label: "姆巴佩", number: "10", avatarSrc: "/assets/world-cup/avatars/mbappe.svg" },
-  { id: "neymar", label: "内马尔", number: "11", avatarSrc: "/assets/world-cup/avatars/neymar.svg" },
-  { id: "haaland", label: "哈兰德", number: "9", avatarSrc: "/assets/world-cup/avatars/haaland.svg" },
-  { id: "son", label: "孙兴慜", number: "7", avatarSrc: "/assets/world-cup/avatars/son.svg" }
+  { id: "messi", label: "梅西", avatarSrc: "/assets/world-cup/avatars/messi.png" },
+  { id: "ronaldo", label: "C 罗", avatarSrc: "/assets/world-cup/avatars/ronaldo.png" },
+  { id: "mbappe", label: "姆巴佩", avatarSrc: "/assets/world-cup/avatars/mbappe.png" },
+  { id: "neymar", label: "内马尔", avatarSrc: "/assets/world-cup/avatars/neymar.png" },
+  { id: "haaland", label: "哈兰德", avatarSrc: "/assets/world-cup/avatars/haaland.png" },
+  { id: "son", label: "孙兴慜", avatarSrc: "/assets/world-cup/avatars/son.png" }
 ];
 
 type FanSetupFormProps = {
@@ -46,6 +47,7 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
   return (
     <section className="setup-panel" aria-labelledby="setup-title">
       <div className="setup-hero" aria-hidden="true" />
+      <img className="trophy-layer" src="/assets/world-cup/trophy.svg" alt="" aria-hidden="true" />
 
       {/* 金银铜领奖台既是视觉分界，也呼应世界杯排名语义。 */}
       <div className="podium-divider" aria-hidden="true">
@@ -53,24 +55,27 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
       </div>
 
       <div className="setup-content">
-        <p className="eyebrow">首次进入</p>
         <h1 id="setup-title">先设置你的球迷身份</h1>
+        <span className="title-divider" aria-hidden="true" />
         <p className="setup-intro">不用注册登录，填一个自己看得懂的 UID 和昵称就能开始使用。</p>
 
         <form className="fan-form" onSubmit={handleSubmit} aria-label="球迷身份设置">
           <label className="field">
             <span>UID</span>
-            <input
-              value={uid}
-              onChange={(event) => {
-                setUid(event.target.value);
-                if (uidError) {
-                  setUidError("");
-                }
-              }}
-              placeholder="例如 fan-001"
-              aria-describedby={uidError ? "uid-error" : undefined}
-            />
+            <span className="input-shell">
+              <UserRound aria-hidden="true" size={22} />
+              <input
+                value={uid}
+                onChange={(event) => {
+                  setUid(event.target.value);
+                  if (uidError) {
+                    setUidError("");
+                  }
+                }}
+                placeholder="fan-001"
+                aria-describedby={uidError ? "uid-error" : undefined}
+              />
+            </span>
             {uidError ? (
               <span className="field-error" id="uid-error">
                 {uidError}
@@ -80,11 +85,14 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
 
           <label className="field">
             <span>昵称</span>
-            <input value={nickname} onChange={(event) => setNickname(event.target.value)} placeholder="例如 小梅迷" />
+            <span className="input-shell">
+              <UserRound aria-hidden="true" size={22} />
+              <input value={nickname} onChange={(event) => setNickname(event.target.value)} placeholder="小梅迷" />
+            </span>
           </label>
 
           <fieldset className="avatar-field">
-            <legend>选择明星球员头像</legend>
+            <legend>选择你喜欢的明星球员头像</legend>
             <div className="avatar-grid">
               {avatarOptions.map((avatar) => (
                 <label className="avatar-option" key={avatar.id}>
@@ -94,21 +102,26 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
                     checked={avatarPlayerId === avatar.id}
                     onChange={() => setAvatarPlayerId(avatar.id)}
                   />
+                  <span className="avatar-check" aria-hidden="true">✓</span>
                   <img className="avatar-image" src={avatar.avatarSrc} alt="" aria-hidden="true" />
-                  <span className="kit-badge" aria-hidden="true">
-                    {avatar.number}
-                  </span>
                   <span className="avatar-player-name">{avatar.label}</span>
                 </label>
               ))}
             </div>
           </fieldset>
 
-          <p className="privacy-note">身份仅保存在本机，后续可以修改。</p>
+          <p className="privacy-note">
+            <ShieldCheck aria-hidden="true" size={22} />
+            <span>你的身份仅保存在本地设备，用于个性化体验，隐私安全有保障。</span>
+          </p>
           <button className="primary-action" type="submit">
             <img className="button-football-icon" src="/assets/world-cup/football-icon.svg" alt="" aria-hidden="true" />
             进入世界杯问答
           </button>
+          <p className="login-note">
+            <Lock aria-hidden="true" size={16} />
+            <span>无需注册登录 · 随时可更改身份设置</span>
+          </p>
         </form>
       </div>
     </section>
