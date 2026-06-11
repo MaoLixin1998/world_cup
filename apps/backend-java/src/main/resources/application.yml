@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: worldcup-backend
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/worldcup}
+    username: ${SPRING_DATASOURCE_USERNAME:worldcup}
+    password: ${SPRING_DATASOURCE_PASSWORD:worldcup}
+server:
+  port: ${SERVER_PORT:8080}

@@ -16,5 +16,18 @@ services:
       timeout: 3s
       retries: 20
 
+  backend-java:
+    build:
+      context: ../apps/backend-java
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/worldcup
+      SPRING_DATASOURCE_USERNAME: worldcup
+      SPRING_DATASOURCE_PASSWORD: worldcup
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
 volumes:
   postgres_data:
