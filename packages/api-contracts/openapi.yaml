@@ -5,31 +5,36 @@ info:
 paths:
   /api/health:
     get:
-      summary: Java backend health check
+      summary: Java 后端健康检查
+      description: 返回 Java 主业务后端的基础健康状态，用于本地启动和部署探活。
       responses:
         "200":
-          description: Backend is healthy
+          description: 后端服务可用
   /api/fans:
     post:
-      summary: Create anonymous fan identity
+      summary: 创建匿名球迷身份
+      description: 创建不含密码的轻量球迷身份，包含 uid、昵称和明星球员头像。
       responses:
         "201":
-          description: Fan created
+          description: 匿名球迷身份已创建
   /api/browse/teams:
     get:
-      summary: List teams
+      summary: 获取球队列表
+      description: 返回世界杯球队资料列表，用于浏览页和问答后的相关入口。
       responses:
         "200":
-          description: Teams returned
+          description: 球队列表已返回
   /api/chat:
     post:
-      summary: Ask a World Cup question
+      summary: 提交世界杯问题
+      description: 接收中文世界杯问题，返回带来源链接和资料更新时间的 RAG 回答。
       responses:
         "200":
-          description: Answer returned
+          description: 问答结果已返回
   /api/admin/ingest-jobs:
     get:
-      summary: List ingestion jobs
+      summary: 获取导入任务列表
+      description: 返回每日资料导入和索引重建任务的状态，供管理页展示。
       responses:
         "200":
-          description: Ingestion jobs returned
+          description: 导入任务列表已返回

@@ -22,6 +22,10 @@
 - 不加入 Kubernetes、Kafka、Milvus、Elasticsearch。
 - React 先行，Vue 后续。
 - 所有 UI 页面完成前必须经过 ui-ux-pro-max 的体育内容产品体验审查。
+- 面向中国大陆开发环境，任何软件安装、依赖安装或镜像拉取前，都要先检查是否需要国内镜像源或代理配置，并在执行记录中说明采用的源。
+- OpenAPI 的 `summary` 和 `description` 使用中文，便于中文团队 review。
+- 实现代码需要有充足但不啰嗦的中文注释；复杂业务规则、边界判断、RAG 流程和部署配置要有解释性注释。
+- 后端、RAG 服务和关键前端动作要有关键节点日志，日志文案优先中文，避免记录密钥、token、个人敏感信息和大段用户问题原文。
 
 ## 文件结构规划
 
@@ -95,6 +99,15 @@ npm run test:e2e
 
 并记录该页面的 ui-ux-pro-max 审查结果到对应任务提交说明或后续实现日志。
 
+安装与依赖约定：
+
+- 使用 Homebrew、npm、Gradle、pip、Docker 镜像或其他下载型工具前，先检查当前网络、代理和国内镜像源可用性。
+- npm 优先确认是否需要 `registry.npmmirror.com`。
+- pip 优先确认是否需要清华源、阿里云源或其他稳定 PyPI 镜像。
+- Gradle/Maven 优先确认是否需要阿里云 Maven 镜像或公司内网代理。
+- Docker 拉取镜像前，先确认是否需要 Docker Hub 镜像加速、代理或替代镜像。
+- 如果使用默认官方源，必须是因为当前环境访问正常，或用户明确要求不使用镜像源。
+
 ---
 
 ### Task 1: Monorepo Skeleton And Local Contracts
@@ -121,34 +134,39 @@ info:
 paths:
   /api/health:
     get:
-      summary: Java backend health check
+      summary: Java 后端健康检查
+      description: 返回 Java 主业务后端的基础健康状态，用于本地启动和部署探活。
       responses:
         "200":
-          description: Backend is healthy
+          description: 后端服务可用
   /api/fans:
     post:
-      summary: Create anonymous fan identity
+      summary: 创建匿名球迷身份
+      description: 创建不含密码的轻量球迷身份，包含 uid、昵称和明星球员头像。
       responses:
         "201":
-          description: Fan created
+          description: 匿名球迷身份已创建
   /api/browse/teams:
     get:
-      summary: List teams
+      summary: 获取球队列表
+      description: 返回世界杯球队资料列表，用于浏览页和问答后的相关入口。
       responses:
         "200":
-          description: Teams returned
+          description: 球队列表已返回
   /api/chat:
     post:
-      summary: Ask a World Cup question
+      summary: 提交世界杯问题
+      description: 接收中文世界杯问题，返回带来源链接和资料更新时间的 RAG 回答。
       responses:
         "200":
-          description: Answer returned
+          description: 问答结果已返回
   /api/admin/ingest-jobs:
     get:
-      summary: List ingestion jobs
+      summary: 获取导入任务列表
+      description: 返回每日资料导入和索引重建任务的状态，供管理页展示。
       responses:
         "200":
-          description: Ingestion jobs returned
+          description: 导入任务列表已返回
 ```
 
 - [ ] **Step 2: Add Docker Compose skeleton**
