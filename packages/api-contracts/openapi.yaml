@@ -1,0 +1,35 @@
+openapi: 3.0.3
+info:
+  title: World Cup RAG API
+  version: 0.1.0
+paths:
+  /api/health:
+    get:
+      summary: Java backend health check
+      responses:
+        "200":
+          description: Backend is healthy
+  /api/fans:
+    post:
+      summary: Create anonymous fan identity
+      responses:
+        "201":
+          description: Fan created
+  /api/browse/teams:
+    get:
+      summary: List teams
+      responses:
+        "200":
+          description: Teams returned
+  /api/chat:
+    post:
+      summary: Ask a World Cup question
+      responses:
+        "200":
+          description: Answer returned
+  /api/admin/ingest-jobs:
+    get:
+      summary: List ingestion jobs
+      responses:
+        "200":
+          description: Ingestion jobs returned
