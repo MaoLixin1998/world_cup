@@ -8,6 +8,8 @@
 
 **Tech Stack:** Java 21, Spring Boot 3, Gradle, Python 3.12, FastAPI, pytest, PostgreSQL 16 + pgvector, React + TypeScript + Vite, Vitest, Testing Library, Playwright, Docker Compose.
 
+**Frontend Package Manager:** pnpm. Use `/Users/mao/tools/node` and corepack/pnpm from the local tools directory first. Set `COREPACK_NPM_REGISTRY=https://registry.npmmirror.com` before corepack downloads pnpm. npm is only a fallback for enabling pnpm.
+
 ---
 
 ## 已确认规格来源
@@ -48,6 +50,7 @@ world_cup/
       tests/
     web-react/
       package.json
+      pnpm-lock.yaml
       src/
       tests/
     web-vue/
@@ -92,17 +95,17 @@ git commit -m "type: concise description"
 UI 任务完成时还要执行：
 
 ```bash
-npm run test
-npm run build
-npm run test:e2e
+pnpm test
+pnpm build
+pnpm test:e2e
 ```
 
 并记录该页面的 ui-ux-pro-max 审查结果到对应任务提交说明或后续实现日志。
 
 安装与依赖约定：
 
-- 使用 Homebrew、npm、Gradle、pip、Docker 镜像或其他下载型工具前，先检查当前网络、代理和国内镜像源可用性。
-- npm 优先确认是否需要 `registry.npmmirror.com`。
+- 使用 Homebrew、pnpm/npm、Gradle、pip、Docker 镜像或其他下载型工具前，先检查当前网络、代理和国内镜像源可用性。
+- pnpm 优先通过 corepack 启用，并设置 `COREPACK_NPM_REGISTRY=https://registry.npmmirror.com`。npm 仅作为安装或启用 pnpm 的兜底工具。
 - pip 优先确认是否需要清华源、阿里云源或其他稳定 PyPI 镜像。
 - Gradle/Maven 优先确认是否需要阿里云 Maven 镜像或公司内网代理。
 - Docker 拉取镜像前，先确认是否需要 Docker Hub 镜像加速、代理或替代镜像。
@@ -631,6 +634,7 @@ git commit -m "feat: add fastapi rag service health"
 **Files:**
 
 - Create: `apps/web-react/package.json`
+- Create: `apps/web-react/pnpm-lock.yaml`
 - Create: `apps/web-react/index.html`
 - Create: `apps/web-react/tsconfig.json`
 - Create: `apps/web-react/vite.config.ts`
@@ -668,7 +672,7 @@ Run:
 
 ```bash
 cd apps/web-react
-npm test -- --run src/App.test.tsx
+pnpm test -- --run src/App.test.tsx
 ```
 
 Expected: FAIL because React app is not implemented.
@@ -683,6 +687,7 @@ Create `apps/web-react/package.json`:
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@11.5.3",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "tsc && vite build",
@@ -707,6 +712,15 @@ Create `apps/web-react/package.json`:
   }
 }
 ```
+
+Generate and commit `apps/web-react/pnpm-lock.yaml` by running:
+
+```bash
+cd apps/web-react
+pnpm install
+```
+
+Expected: `pnpm-lock.yaml` is created and dependencies resolve through the configured registry.
 
 Create `apps/web-react/src/App.tsx`:
 
@@ -848,7 +862,7 @@ import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
   webServer: {
-    command: "npm run dev -- --port 5173",
+    command: "pnpm dev -- --port 5173",
     url: "http://127.0.0.1:5173",
     reuseExistingServer: true
   },
@@ -878,8 +892,8 @@ Run:
 
 ```bash
 cd apps/web-react
-npm test -- --run src/App.test.tsx
-npm run build
+pnpm test -- --run src/App.test.tsx
+pnpm build
 ```
 
 Expected: PASS.
@@ -891,10 +905,11 @@ Create `apps/web-react/Dockerfile`:
 ```dockerfile
 FROM node:22-alpine AS build
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+RUN corepack enable
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY . .
-RUN npm run build
+RUN pnpm build
 
 FROM nginx:1.27-alpine
 COPY --from=build /app/dist /usr/share/nginx/html
@@ -1137,8 +1152,8 @@ Run:
 cd apps/backend-java
 ./gradlew test --tests com.worldcup.fan.FanUserServiceTest
 cd ../web-react
-npm test -- --run src/fan/FanSetupForm.test.tsx
-npm run build
+pnpm test -- --run src/fan/FanSetupForm.test.tsx
+pnpm build
 ```
 
 Expected: PASS.
@@ -1288,8 +1303,8 @@ Run:
 cd apps/backend-java
 ./gradlew test --tests com.worldcup.browse.BrowseServiceTest
 cd ../web-react
-npm test -- --run src/browse/BrowsePage.test.tsx
-npm run build
+pnpm test -- --run src/browse/BrowsePage.test.tsx
+pnpm build
 ```
 
 Run ui-ux-pro-max browse page review:
@@ -1542,8 +1557,8 @@ Run:
 cd apps/rag-python
 python -m pytest tests/test_answer_api.py -q
 cd ../web-react
-npm test -- --run src/chat/ChatPage.test.tsx
-npm run build
+pnpm test -- --run src/chat/ChatPage.test.tsx
+pnpm build
 ```
 
 Run ui-ux-pro-max chat page review:
@@ -1660,8 +1675,8 @@ Run:
 cd apps/rag-python
 python -m pytest tests/test_ingest.py -q
 cd ../web-react
-npm test -- --run src/admin/AdminPage.test.tsx
-npm run build
+pnpm test -- --run src/admin/AdminPage.test.tsx
+pnpm build
 ```
 
 Run ui-ux-pro-max admin page review:
@@ -1794,8 +1809,8 @@ Run:
 cd apps/backend-java
 ./gradlew test --tests com.worldcup.records.RecordsServiceTest
 cd ../web-react
-npm test -- --run src/records/MyRecordsPage.test.tsx
-npm run build
+pnpm test -- --run src/records/MyRecordsPage.test.tsx
+pnpm build
 ```
 
 Run ui-ux-pro-max records page review:
@@ -1878,7 +1893,7 @@ Add:
 docker compose -f infra/docker-compose.yml config
 cd apps/backend-java && ./gradlew test
 cd ../rag-python && python -m pytest
-cd ../web-react && npm test -- --run && npm run build
+cd ../web-react && pnpm test -- --run && pnpm build
 ```
 ```
 
@@ -1890,7 +1905,7 @@ Run:
 docker compose -f infra/docker-compose.yml config
 cd apps/backend-java && ./gradlew test
 cd ../rag-python && python -m pytest
-cd ../web-react && npm test -- --run && npm run build
+cd ../web-react && pnpm test -- --run && pnpm build
 ```
 
 Expected: all pass.
