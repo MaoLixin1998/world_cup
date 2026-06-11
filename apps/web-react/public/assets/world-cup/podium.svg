@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="580" height="148" viewBox="0 0 580 148" role="img" aria-label="金银铜领奖台">
+  <defs>
+    <linearGradient id="silver" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#f8faf8"/>
+      <stop offset="1" stop-color="#aeb8b2"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffe988"/>
+      <stop offset=".55" stop-color="#dfa322"/>
+      <stop offset="1" stop-color="#b7760d"/>
+    </linearGradient>
+    <linearGradient id="bronze" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#edb984"/>
+      <stop offset="1" stop-color="#98531f"/>
+    </linearGradient>
+  </defs>
+  <rect x="16" y="60" width="176" height="72" rx="10" fill="url(#silver)" stroke="#fff" stroke-opacity=".78" stroke-width="4"/>
+  <rect x="202" y="16" width="176" height="116" rx="10" fill="url(#gold)" stroke="#fff" stroke-opacity=".78" stroke-width="4"/>
+  <rect x="388" y="74" width="176" height="58" rx="10" fill="url(#bronze)" stroke="#fff" stroke-opacity=".78" stroke-width="4"/>
+  <text x="104" y="106" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" font-weight="900" fill="#173126">2</text>
+  <text x="290" y="86" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="900" fill="#173126">1</text>
+  <text x="476" y="112" text-anchor="middle" font-family="Arial, sans-serif" font-size="44" font-weight="900" fill="#173126">3</text>
+</svg>

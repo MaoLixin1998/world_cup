@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 96 96" role="img" aria-label="足球图标">
+  <circle cx="48" cy="48" r="42" fill="#f8fbf7" stroke="#e1ebe6" stroke-width="5"/>
+  <path d="M48 23l15 11-6 18H39l-6-18z" fill="#1c3028"/>
+  <path d="M32 35l-15 5 4 18 16-4zM64 35l15 5-4 18-16-4zM39 54l-10 15 15 9 12-12zM57 54l10 15-15 9-12-12z" fill="#1c3028"/>
+  <path d="M33 34l-10-12M63 34l10-12M21 58l-11 8M75 58l11 8M44 78l-2 12M52 78l2 12" stroke="#1c3028" stroke-width="4" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="内马尔卡通头像">
+  <rect width="160" height="160" rx="28" fill="#edf7ee"/>
+  <circle cx="80" cy="60" r="37" fill="#b97945"/>
+  <path d="M45 54c6-28 30-40 65-25-5 12-16 21-31 26-12-5-23-5-34-1z" fill="#291810"/>
+  <circle cx="66" cy="66" r="4" fill="#10231d"/><circle cx="94" cy="66" r="4" fill="#10231d"/>
+  <path d="M69 82c8 7 17 7 24 0" fill="none" stroke="#78402b" stroke-width="5" stroke-linecap="round"/>
+  <path d="M39 115c8-22 24-34 41-34s33 12 41 34v25H39z" fill="#f2c84b"/>
+  <path d="M56 86l24 24 24-24" fill="none" stroke="#1b7c45" stroke-width="8" stroke-linecap="round"/>
+  <text x="80" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#145f3a">11</text>
+</svg>

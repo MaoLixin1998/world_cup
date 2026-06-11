@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="860" height="376" viewBox="0 0 860 376" role="img" aria-label="世界杯球场顶部背景">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#042f22"/>
+      <stop offset="1" stop-color="#0b5a40"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="90%" r="60%">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".25"/>
+      <stop offset=".45" stop-color="#ffffff" stop-opacity=".08"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cup" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffe38a"/>
+      <stop offset=".5" stop-color="#efbd44"/>
+      <stop offset="1" stop-color="#b87414"/>
+    </linearGradient>
+  </defs>
+  <rect width="860" height="376" fill="url(#sky)"/>
+  <rect width="860" height="376" fill="url(#glow)"/>
+  <path d="M36 250c128-78 280-118 394-118s266 40 394 118" fill="none" stroke="#e7fff3" stroke-opacity=".12" stroke-width="26"/>
+  <path d="M62 254c120-62 252-92 368-92s248 30 368 92" fill="none" stroke="#e7fff3" stroke-opacity=".15" stroke-width="5"/>
+  <path d="M146 276h568" stroke="#e7fff3" stroke-opacity=".12" stroke-width="4"/>
+  <path d="M232 210l-62 120M330 188l-28 144M430 176v160M530 188l28 144M628 210l62 120" stroke="#e7fff3" stroke-opacity=".11" stroke-width="5"/>
+  <g transform="translate(374 88)">
+    <path d="M12 40c-34-2-48 12-46 38 2 28 25 43 58 42" fill="none" stroke="#e9bd55" stroke-width="11"/>
+    <path d="M100 40c34-2 48 12 46 38-2 28-25 43-58 42" fill="none" stroke="#e9bd55" stroke-width="11"/>
+    <rect x="0" y="0" width="112" height="104" rx="14" fill="url(#cup)" stroke="#fff0b5" stroke-width="6"/>
+    <circle cx="56" cy="52" r="23" fill="#f8fbf7" stroke="#e7eee8" stroke-width="3"/>
+    <path d="M56 30l8 15 17 3-12 12 3 17-16-8-16 8 3-17-12-12 17-3z" fill="#21362d"/>
+    <rect x="28" y="104" width="56" height="22" rx="8" fill="#d89b2f"/>
+    <rect x="15" y="124" width="82" height="18" rx="8" fill="#f0c65f"/>
+  </g>
+  <g fill="#e8c86f" opacity=".86">
+    <rect x="160" y="54" width="14" height="20" rx="2" transform="rotate(19 167 64)"/>
+    <rect x="676" y="54" width="14" height="20" rx="2" transform="rotate(19 683 64)"/>
+    <path d="M260 96l18 8-14 14z"/>
+    <path d="M598 112l20-8-5 21z"/>
+  </g>
+</svg>

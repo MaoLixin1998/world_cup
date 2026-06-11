@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="C 罗卡通头像">
+  <rect width="160" height="160" rx="28" fill="#eef6f1"/>
+  <circle cx="80" cy="60" r="37" fill="#c99462"/>
+  <path d="M45 49c8-23 33-34 65-20 1 9-3 18-11 25-16-12-35-13-54-5z" fill="#241811"/>
+  <circle cx="66" cy="66" r="4" fill="#173126"/><circle cx="94" cy="66" r="4" fill="#173126"/>
+  <path d="M68 82c9 7 17 7 25 0" fill="none" stroke="#7b402d" stroke-width="5" stroke-linecap="round"/>
+  <path d="M39 115c8-22 24-34 41-34s33 12 41 34v25H39z" fill="#0f6b3f"/>
+  <path d="M56 86l24 24 24-24" fill="none" stroke="#e8f6ee" stroke-width="8" stroke-linecap="round"/>
+  <text x="80" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#ffffff">7</text>
+</svg>
