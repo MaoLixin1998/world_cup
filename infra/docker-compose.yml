@@ -40,5 +40,13 @@ services:
       postgres:
         condition: service_healthy
 
+  web-react:
+    build:
+      context: ../apps/web-react
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend-java
+
 volumes:
   postgres_data:

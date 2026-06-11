@@ -1,0 +1,7 @@
+allowBuilds:
+  esbuild: true
+# pnpm 11 默认会拦截依赖包的安装脚本，防止不可信脚本自动执行。
+# Vite 依赖 esbuild，esbuild 必须运行自己的安装脚本来准备平台二进制文件，
+# 所以这里显式允许 esbuild 构建，避免安装阶段被 pnpm 阻断。
+onlyBuiltDependencies:
+  - esbuild

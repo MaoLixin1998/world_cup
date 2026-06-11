@@ -1,0 +1,35 @@
+:root {
+  /* 全局基础配色：深墨文字 + 浅色背景，先保证可读性和对比度。 */
+  color: #10231d;
+  background: #f7faf8;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input {
+  /* 表单控件继承页面字体，避免按钮/输入框出现系统默认字体割裂。 */
+  font: inherit;
+}
+
+.app-shell {
+  /* dvh 适配移动端浏览器地址栏变化，避免 100vh 在手机上撑出多余滚动。 */
+  min-height: 100dvh;
+  padding: 24px;
+}
+
+.home-panel {
+  /* 约束正文宽度，让桌面端不散，移动端仍自然占满可用宽度。 */
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.title-row {
+  /* 标题和图标保持同一视觉行，gap 提供稳定间距。 */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

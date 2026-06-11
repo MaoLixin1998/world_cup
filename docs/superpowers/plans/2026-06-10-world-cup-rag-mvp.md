@@ -672,7 +672,7 @@ Run:
 
 ```bash
 cd apps/web-react
-pnpm test -- --run src/App.test.tsx
+pnpm test src/App.test.tsx
 ```
 
 Expected: FAIL because React app is not implemented.
@@ -689,10 +689,10 @@ Create `apps/web-react/package.json`:
   "type": "module",
   "packageManager": "pnpm@11.5.3",
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
+    "dev": "vite",
     "build": "tsc && vite build",
-    "test": "vitest",
-    "test:e2e": "playwright test"
+    "test": "vitest run",
+    "test:e2e": "NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost playwright test"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.0",
@@ -707,6 +707,7 @@ Create `apps/web-react/package.json`:
     "@testing-library/react": "^16.0.0",
     "@types/react": "^18.3.0",
     "@types/react-dom": "^18.3.0",
+    "jsdom": "^25.0.0",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0"
   }
@@ -861,12 +862,14 @@ Create `apps/web-react/playwright.config.ts`:
 import { defineConfig } from "@playwright/test";
 
 export default defineConfig({
+  testDir: "./tests",
   webServer: {
-    command: "pnpm dev -- --port 5173",
+    command: "COREPACK_NPM_REGISTRY=https://registry.npmmirror.com /Users/mao/tools/node/lib/node_modules/corepack/shims/pnpm exec vite --host 127.0.0.1 --port 5173",
     url: "http://127.0.0.1:5173",
     reuseExistingServer: true
   },
   use: {
+    channel: "chrome",
     baseURL: "http://127.0.0.1:5173"
   }
 });
@@ -892,7 +895,7 @@ Run:
 
 ```bash
 cd apps/web-react
-pnpm test -- --run src/App.test.tsx
+pnpm test src/App.test.tsx
 pnpm build
 ```
 
@@ -1152,7 +1155,7 @@ Run:
 cd apps/backend-java
 ./gradlew test --tests com.worldcup.fan.FanUserServiceTest
 cd ../web-react
-pnpm test -- --run src/fan/FanSetupForm.test.tsx
+pnpm test src/fan/FanSetupForm.test.tsx
 pnpm build
 ```
 
@@ -1303,7 +1306,7 @@ Run:
 cd apps/backend-java
 ./gradlew test --tests com.worldcup.browse.BrowseServiceTest
 cd ../web-react
-pnpm test -- --run src/browse/BrowsePage.test.tsx
+pnpm test src/browse/BrowsePage.test.tsx
 pnpm build
 ```
 
@@ -1557,7 +1560,7 @@ Run:
 cd apps/rag-python
 python -m pytest tests/test_answer_api.py -q
 cd ../web-react
-pnpm test -- --run src/chat/ChatPage.test.tsx
+pnpm test src/chat/ChatPage.test.tsx
 pnpm build
 ```
 
@@ -1675,7 +1678,7 @@ Run:
 cd apps/rag-python
 python -m pytest tests/test_ingest.py -q
 cd ../web-react
-pnpm test -- --run src/admin/AdminPage.test.tsx
+pnpm test src/admin/AdminPage.test.tsx
 pnpm build
 ```
 
@@ -1809,7 +1812,7 @@ Run:
 cd apps/backend-java
 ./gradlew test --tests com.worldcup.records.RecordsServiceTest
 cd ../web-react
-pnpm test -- --run src/records/MyRecordsPage.test.tsx
+pnpm test src/records/MyRecordsPage.test.tsx
 pnpm build
 ```
 
@@ -1893,7 +1896,7 @@ Add:
 docker compose -f infra/docker-compose.yml config
 cd apps/backend-java && ./gradlew test
 cd ../rag-python && python -m pytest
-cd ../web-react && pnpm test -- --run && pnpm build
+cd ../web-react && pnpm test && pnpm build
 ```
 ```
 
@@ -1905,7 +1908,7 @@ Run:
 docker compose -f infra/docker-compose.yml config
 cd apps/backend-java && ./gradlew test
 cd ../rag-python && python -m pytest
-cd ../web-react && pnpm test -- --run && pnpm build
+cd ../web-react && pnpm test && pnpm build
 ```
 
 Expected: all pass.
