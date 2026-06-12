@@ -1,11 +1,11 @@
-package com.worldcup.service.fan;
+package com.worldcup.service.fan.facade.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import com.worldcup.api.fan.CreateFanUserRequest;
-import com.worldcup.api.fan.FanUserResponse;
-import com.worldcup.dal.fan.InMemoryFanUserRepository;
+import com.worldcup.api.fan.request.CreateFanUserRequest;
+import com.worldcup.api.fan.response.FanUserResponse;
+import com.worldcup.dal.fan.repository.impl.InMemoryFanUserRepository;
 import org.junit.jupiter.api.Test;
 
 class FanUserFacadeImplTest {

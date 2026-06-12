@@ -1,18 +1,19 @@
-package com.worldcup.service.fan;
+package com.worldcup.service.fan.facade.impl;
 
-import com.worldcup.api.fan.CreateFanUserRequest;
-import com.worldcup.api.fan.FanUserFacade;
-import com.worldcup.api.fan.FanUserResponse;
-import com.worldcup.dal.fan.FanUserDO;
-import com.worldcup.dal.fan.FanUserRepository;
+import com.worldcup.api.fan.facade.FanUserFacade;
+import com.worldcup.api.fan.request.CreateFanUserRequest;
+import com.worldcup.api.fan.response.FanUserResponse;
+import com.worldcup.dal.fan.dataobject.FanUserDO;
+import com.worldcup.dal.fan.repository.FanUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 /**
- * 球迷身份业务服务。
+ * 球迷身份对外服务实现。
  *
- * <p>service 层集中处理业务规则，Controller 和 DAL 都不要重复这部分判断。
+ * <p>facade.impl 包放 api facade 的具体实现。Controller 或远程调用入口只应该依赖
+ * {@link FanUserFacade} 接口，不应该依赖这个实现类。
  */
 @Service
 public class FanUserFacadeImpl implements FanUserFacade {
