@@ -1,4 +1,4 @@
-package com.worldcup.service.fan.facade.impl;
+package com.worldcup.service.fan.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -6,14 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import com.worldcup.api.fan.request.CreateFanUserRequest;
 import com.worldcup.api.fan.response.FanUserResponse;
 import com.worldcup.dal.fan.repository.impl.InMemoryFanUserRepository;
+import com.worldcup.service.fan.service.FanUserService;
 import org.junit.jupiter.api.Test;
 
-class FanUserFacadeImplTest {
+class FanUserServiceImplTest {
     @Test
     void createsFanIdentityWhenUidIsNew() {
-        FanUserFacadeImpl facade = new FanUserFacadeImpl(new InMemoryFanUserRepository());
+        FanUserService service = new FanUserServiceImpl(new InMemoryFanUserRepository());
 
-        FanUserResponse response = facade.createFan(new CreateFanUserRequest("mei-10", "小梅迷", "messi"));
+        FanUserResponse response = service.createFan(new CreateFanUserRequest("mei-10", "小梅迷", "messi"));
 
         assertEquals("mei-10", response.uid());
         assertEquals("小梅迷", response.nickname());
@@ -22,12 +23,12 @@ class FanUserFacadeImplTest {
 
     @Test
     void rejectsDuplicatedUid() {
-        FanUserFacadeImpl facade = new FanUserFacadeImpl(new InMemoryFanUserRepository());
-        facade.createFan(new CreateFanUserRequest("mei-10", "小梅迷", "messi"));
+        FanUserService service = new FanUserServiceImpl(new InMemoryFanUserRepository());
+        service.createFan(new CreateFanUserRequest("mei-10", "小梅迷", "messi"));
 
         IllegalArgumentException error = assertThrows(
             IllegalArgumentException.class,
-            () -> facade.createFan(new CreateFanUserRequest("mei-10", "另一个昵称", "haaland"))
+            () -> service.createFan(new CreateFanUserRequest("mei-10", "另一个昵称", "haaland"))
         );
 
         assertEquals("UID 已存在", error.getMessage());
