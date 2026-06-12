@@ -21,3 +21,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "backend-java"
+
+include("worldcup-api")
+include("worldcup-dal")
+include("worldcup-service")
+include("worldcup-start")
