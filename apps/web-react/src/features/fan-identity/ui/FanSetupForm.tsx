@@ -1,5 +1,10 @@
 import { FormEvent, useState } from "react";
 import { Lock, ShieldCheck, UserRound } from "lucide-react";
+import { worldCupAssets } from "../../../shared/assets/worldCupAssets";
+import { logger } from "../../../shared/lib/logger";
+import { Button } from "../../../shared/ui/Button";
+import { Notice } from "../../../shared/ui/Notice";
+import { TextField } from "../../../shared/ui/TextField";
 import { avatarOptions } from "../data/avatarOptions";
 import { FanIdentity } from "../model/fanIdentityTypes";
 import { AvatarOptionCard } from "./AvatarOptionCard";
@@ -24,7 +29,7 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
     }
 
     setUidError("");
-    console.info("保存球迷身份设置", { uid, nickname, avatarPlayerId });
+    logger.info("保存球迷身份设置", { uid, nickname, avatarPlayerId });
     onSubmit({
       uid: uid.trim(),
       nickname: nickname.trim(),
@@ -42,45 +47,39 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
             <span className="title-divider" aria-hidden="true" />
             <p className="setup-intro">不用注册登录，填一个自己看得懂的 UID 和昵称就能开始使用。</p>
 
-            <label className="field">
-              <span>UID</span>
-              <span className="input-shell">
-                <UserRound aria-hidden="true" size={22} />
-                <input
-                  value={uid}
-                  onChange={(event) => {
-                    setUid(event.target.value);
-                    if (uidError) {
-                      setUidError("");
-                    }
-                  }}
-                  placeholder="fan-001"
-                  aria-describedby={uidError ? "uid-error" : undefined}
-                />
-              </span>
-              {uidError ? (
-                <span className="field-error" id="uid-error">
-                  {uidError}
-                </span>
-              ) : null}
-            </label>
+            <TextField
+              error={uidError}
+              icon={<UserRound aria-hidden="true" size={22} />}
+              label="UID"
+              name="uid"
+              onChange={(event) => {
+                setUid(event.target.value);
+                if (uidError) {
+                  setUidError("");
+                }
+              }}
+              placeholder="fan-001"
+              value={uid}
+            />
 
-            <label className="field">
-              <span>昵称</span>
-              <span className="input-shell">
-                <UserRound aria-hidden="true" size={22} />
-                <input value={nickname} onChange={(event) => setNickname(event.target.value)} placeholder="小梅迷" />
-              </span>
-            </label>
+            <TextField
+              icon={<UserRound aria-hidden="true" size={22} />}
+              label="昵称"
+              name="nickname"
+              onChange={(event) => setNickname(event.target.value)}
+              placeholder="小梅迷"
+              value={nickname}
+            />
 
-            <p className="privacy-note">
-              <ShieldCheck aria-hidden="true" size={22} />
-              <span>你的身份仅保存在本地设备，用于个性化体验，隐私安全有保障。</span>
-            </p>
-            <button className="primary-action" type="submit">
-              <img className="button-football-icon" src="/assets/world-cup/football-icon.svg" alt="" aria-hidden="true" />
+            <Notice icon={<ShieldCheck aria-hidden="true" size={22} />}>
+              你的身份仅保存在本地设备，用于个性化体验，隐私安全有保障。
+            </Notice>
+            <Button
+              icon={<img className="button-football-icon" src={worldCupAssets.footballIcon} alt="" aria-hidden="true" />}
+              type="submit"
+            >
               进入世界杯问答
-            </button>
+            </Button>
             <p className="login-note">
               <Lock aria-hidden="true" size={16} />
               <span>无需注册登录 · 随时可更改身份设置</span>

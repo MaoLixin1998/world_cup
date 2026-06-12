@@ -1,0 +1,6 @@
+/* 设计 token：集中管理全局文字颜色、背景和字体，后续改主题先看这里。 */
+:root {
+  color: #10231d;
+  background: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}

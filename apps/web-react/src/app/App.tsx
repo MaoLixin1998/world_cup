@@ -2,13 +2,17 @@ import { useState } from "react";
 import { FanIdentity, readFanIdentity, saveFanIdentity } from "../features/fan-identity";
 import { FanSetupPage } from "../pages/fan-setup/FanSetupPage";
 import { HomePage } from "../pages/home/HomePage";
+import { logger } from "../shared/lib/logger";
+import "../styles/tokens.css";
+import "../styles/base.css";
+import "../styles/layout.css";
 import "../styles.css";
 
 export default function App() {
   const [fanIdentity, setFanIdentity] = useState<FanIdentity | null>(() => readFanIdentity());
 
   function handleFanSetupSubmit(identity: FanIdentity) {
-    console.info("首次进入身份设置完成", identity);
+    logger.info("首次进入身份设置完成", identity);
     saveFanIdentity(identity);
     setFanIdentity(identity);
   }

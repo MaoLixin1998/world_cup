@@ -1,0 +1,12 @@
+/* 应用最外层容器：负责撑满视口高度，后续所有页面都挂在这里。 */
+.app-shell {
+  min-height: 100dvh;
+  padding: 0;
+}
+
+/* 已完成身份设置后的首页内容区：限制普通首页的最大宽度和页面内边距。 */
+.home-panel {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px;
+}
