@@ -14,6 +14,7 @@
 
 - 设计文档：`docs/superpowers/specs/2026-06-10-world-cup-rag-design.md`
 - 实施计划：`docs/superpowers/plans/2026-06-10-world-cup-rag-mvp.md`
+- 变更沉淀规则：`docs/development/change-record-rule.md`
 
 ## 工程分层
 
@@ -31,3 +32,15 @@
 - `features`：按业务能力组织代码，例如球迷身份。
 - `shared`：通用 UI、工具、请求层和资产路径。
 - `styles`：全局 token、基础样式和布局样式。
+
+## 变更沉淀
+
+以后每一次改动都要在对应项目中新增一份中文变更记录文件。
+
+示例：
+
+- Java 后端改动：`apps/backend-java/docs/changes/YYYY-MM-DD-topic.md`
+- React 前端改动：`apps/web-react/docs/changes/YYYY-MM-DD-topic.md`
+- Python RAG 改动：`apps/rag-python/docs/changes/YYYY-MM-DD-topic.md`
+- infra 改动：`infra/docs/changes/YYYY-MM-DD-topic.md`
+- 仓库流程或规范改动：`docs/changes/YYYY-MM-DD-topic.md`
