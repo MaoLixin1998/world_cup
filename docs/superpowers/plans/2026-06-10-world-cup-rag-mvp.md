@@ -12,6 +12,8 @@
 
 ---
 
+> 分层更新：2026-06-12 起，Java 后端按 `worldcup-api / worldcup-dal / worldcup-service / worldcup-start` 多模块实施；React 前端按 `app / pages / features / shared / styles` 实施。新增任务应遵守 `docs/superpowers/specs/2026-06-12-world-cup-layered-architecture-refactor.md`。
+
 ## 已确认规格来源
 
 实施以中文设计文档为准：

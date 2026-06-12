@@ -14,3 +14,20 @@
 
 - 设计文档：`docs/superpowers/specs/2026-06-10-world-cup-rag-design.md`
 - 实施计划：`docs/superpowers/plans/2026-06-10-world-cup-rag-mvp.md`
+
+## 工程分层
+
+### Java 后端
+
+- `worldcup-api`：对外契约、DTO、Facade 接口。
+- `worldcup-dal`：数据库对象、Repository、持久化实现。
+- `worldcup-service`：业务规则、Facade 实现、事务和关键日志。
+- `worldcup-start`：Spring Boot 启动类、Controller、配置和 Dockerfile。
+
+### React 前端
+
+- `app`：应用装配和全局入口。
+- `pages`：页面级编排。
+- `features`：按业务能力组织代码，例如球迷身份。
+- `shared`：通用 UI、工具、请求层和资产路径。
+- `styles`：全局 token、基础样式和布局样式。
