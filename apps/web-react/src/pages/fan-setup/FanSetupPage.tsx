@@ -1,4 +1,4 @@
-import { FanIdentity, FanSetupForm } from "../../fan/FanSetupForm";
+import { FanIdentity, FanSetupForm } from "../../features/fan-identity";
 
 type FanSetupPageProps = {
   onSubmit: (identity: FanIdentity) => void;

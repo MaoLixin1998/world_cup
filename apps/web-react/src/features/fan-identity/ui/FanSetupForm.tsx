@@ -1,20 +1,8 @@
 import { FormEvent, useState } from "react";
 import { Lock, ShieldCheck, UserRound } from "lucide-react";
-
-export type FanIdentity = {
-  uid: string;
-  nickname: string;
-  avatarPlayerId: string;
-};
-
-const avatarOptions = [
-  { id: "messi", label: "梅西", avatarSrc: "/assets/world-cup/avatars/messi.png" },
-  { id: "ronaldo", label: "C 罗", avatarSrc: "/assets/world-cup/avatars/ronaldo.png" },
-  { id: "mbappe", label: "姆巴佩", avatarSrc: "/assets/world-cup/avatars/mbappe.png" },
-  { id: "neymar", label: "内马尔", avatarSrc: "/assets/world-cup/avatars/neymar.png" },
-  { id: "haaland", label: "哈兰德", avatarSrc: "/assets/world-cup/avatars/haaland.png" },
-  { id: "son", label: "孙兴慜", avatarSrc: "/assets/world-cup/avatars/son.png" }
-];
+import { avatarOptions } from "../data/avatarOptions";
+import { FanIdentity } from "../model/fanIdentityTypes";
+import { AvatarOptionCard } from "./AvatarOptionCard";
 
 type FanSetupFormProps = {
   onSubmit: (identity: FanIdentity) => void;
@@ -103,17 +91,12 @@ export function FanSetupForm({ onSubmit }: FanSetupFormProps) {
             <legend>选择你喜欢的明星球员头像</legend>
             <div className="avatar-grid">
               {avatarOptions.map((avatar) => (
-                <label className="avatar-option" key={avatar.id}>
-                  <input
-                    type="radio"
-                    name="avatarPlayerId"
-                    checked={avatarPlayerId === avatar.id}
-                    onChange={() => setAvatarPlayerId(avatar.id)}
-                  />
-                  <span className="avatar-check" aria-hidden="true">✓</span>
-                  <img className="avatar-image" src={avatar.avatarSrc} alt="" aria-hidden="true" />
-                  <span className="avatar-player-name">{avatar.label}</span>
-                </label>
+                <AvatarOptionCard
+                  avatar={avatar}
+                  checked={avatarPlayerId === avatar.id}
+                  key={avatar.id}
+                  onChange={() => setAvatarPlayerId(avatar.id)}
+                />
               ))}
             </div>
           </fieldset>
