@@ -19,6 +19,7 @@ services:
   backend-java:
     build:
       context: ../apps/backend-java
+      dockerfile: worldcup-start/Dockerfile
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/worldcup
       SPRING_DATASOURCE_USERNAME: worldcup
